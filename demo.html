@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Anim demo</title>
+	<style style="text/css">
+		*{ margin: 0; padding: 0; }
+		body{ font: 12px/1.6 Arial sans-serif; }
+		a{ color: #09c; }
+		a:hover{ color: #000; text-decoration: none; }
+		ul{ list-style: none; }
+		.f_r{ float:right; }
+		#wrapper{width:960px;margin:2% auto 0; padding-bottom:50px;}
+		.page_tit{ font-size:24px; font-weight:400; color:#151515; border-bottom:2px solid #b2b2b2; height:40px; line-height:40px; overflow:hidden; margin-bottom:20px; }
+		.page_tit .f_r{ font-size:12px; margin:5px -10px 0 0; }
+		.page_tit .f_r a{ margin-right:10px; }
+		.demo_list{ width:960px; }
+		.demo_list li{ width:960px; padding:20px 0; border-bottom:1px solid #c9c9c9; position:relative; min-height:190px; height:auto; _height:190px; }
+		.btn { height:30px; line-height:30px; margin-bottom:15px; overflow:hidden; }
+		.btn a{ font-size:12px; padding:0 10px; height:22px; line-height:22px; background:#999; float:left; color:#fff; text-decoration:none; text-align:center; margin:3px 10px 0 0; border-radius:2px; }
+		.btn a:hover{ background:#09c; color:#fff; }
+		.box{ width:100px; height:100px; background:#2c2c2c; position:absolute; top:70px; line-height:100px; border:0px solid #fb219a; font-size:12px; color:#fff; text-align:center; overflow:hidden; }
+		#box5{ border-width:5px;}
+	</style>
+</head>
+<body>
+	<div id="wrapper">
+	<h1 class="page_tit">Anim Demo</h1>
+	<ul class="demo_list">
+		<li>
+			<div class="btn"><a href="javascript:void(0)" id="show">show</a><a href="javascript:void(0)" id="hide">hide</a></div>
+			<div class="box" id="box1"></div>
+		</li>
+		<li>
+			<div class="btn"><a href="javascript:void(0)" id="slideUp">slideUp</a><a href="javascript:void(0)" id="slideDown">slideDown</a><a href="javascript:void(0)" id="slideToggle">slideToggle</a></div>
+			<div class="box" id="box2"></div>
+		</li>
+		<li>
+			<div class="btn"><a href="javascript:void(0)" id="fadeIn">fadeIn</a><a href="javascript:void(0)" id="fadeOut">fadeOut</a></div>
+			<div class="box" id="box3"></div>
+		</li>
+		<li>
+			<div class="btn"><a href="javascript:void(0)" id="customw">custom : width</a><a href="javascript:void(0)" id="customh">custom : height</a><a href="javascript:void(0)" id="custombdw">custom : borderWidth</a><a href="javascript:void(0)" id="customfz">custom : fontSize</a></div>
+			<div class="box" id="box4">easyAnim</div>
+		</li>
+		<li>
+			<div class="btn"><a href="javascript:void(0)" id="customc">custom : backgroundColor & color & borderColor</a></div>
+			<div class="box" id="box5">Anim</div>
+		</li>
+		<li>
+			<div class="btn"><a href="javascript:void(0)" id="customleft">custom : left</a></div>
+			<div class="box" id="box6"></div>
+		</li>
+		<li>
+			<div class="btn"><a href="javascript:void(0)" id="queue">queue</a><a href="javascript:void(0)" id="stop1">stop()</a><a href="javascript:void(0)" id="stop2">stop( false, true )</a><a href="javascript:void(0)" id="stop3">stop( true, false )</a><a href="javascript:void(0)" id="stop4">stop( true, true )</a></div>
+			<div class="box" id="box7"></div>
+		</li>
+		<!--others-->
+		<li>
+			<div class="btn"><a href="javascript:void(0)" id="others">others</a></div>
+			<div class="box" id="box8" style="position:absolute; left:0;">box8</div>
+		</li>
+	</ul>
+</div>
+
+<script src="anim.js" type="text/javascript"></script>
+<script type="text/javascript">
+	var $ = function(id) {
+		return typeof id === "string" ? document.getElementById(id) : id;
+	};
+	var callback = function() {
+		console.log("I am a callback");
+	};
+	
+	// show、hide方法
+	$("show").onclick = function() {
+		Anim("box1").show("slow");
+	};
+	$("hide").onclick = function() {
+		Anim("box1").hide(1000);
+	};
+
+
+	// slideUp、slideDown、slideToggle方法
+	$("slideUp").onclick = function() {
+		Anim("box2").slideUp("slow", "easeOutStrong", callback);
+	};
+	$("slideDown").onclick = function() {
+		Anim("box2").slideDown(1000, "easeOutStrong", callback);
+	};
+	$("slideToggle").onclick = function() {
+		// 该方法判断当前元素是否隐藏，如果是隐藏状态，将调用slideUp，如果是非隐藏状态，将调用slideDown。
+		Anim("box2").slideToggle(1000, "easeOutStrong", callback);
+	};
+
+
+	// fadeIn、fadeOut方法(通过改变元素的opacity来显示和隐藏元素)
+	$("fadeIn").onclick = function() {
+		Anim("box3").fadeIn("slow", "easeBoth", callback); // 淡入
+	};
+	$("fadeOut").onclick = function() {
+		Anim("box3").fadeOut("slow", "easeOutStrong", callback); // 淡出
+	};
+
+
+	// custom(props, duration, easing, callback)自定义动画方法
+	$("customw").onclick = function() {
+		Anim("box4").custom({width: "0px"}, "slow", "easeOutStrong", callback); // 改变宽度
+	};
+	$("customh").onclick = function() {
+		Anim("box4").custom({height: "0px"}, "slow", "easeOutStrong", callback); // 改变高度
+	};
+	$("custombdw").onclick = function() {
+		Anim("box4").custom({ // 改变边框的宽度(注意边框宽度是驼峰式命名)
+			borderTopWidth: "10px",
+			borderLeftWidth: "10px",
+			borderBottomWidth: "10px",
+			borderRightWidth: "10px"
+		}, "fast");
+	};
+	$("customfz").onclick = function() {
+		Anim("box4").custom({ // 改变文本字体的大小
+			fontSize: "20px"
+		}, "fast");
+	};
+
+	// custom方法(同时改变color、backgroundColor、borderColor)注意：颜色单位必须为10进制或16进制
+	$("customc").onclick = function() {
+		Anim("box5").custom({
+			backgroundColor: '#fb219a',
+			color: '#000',
+			borderTopColor: '#2c2c2c',
+			borderRightColor: '#2c2c2c',
+			borderBottomColor: '#2c2c2c',
+			borderLeftColor: '#2c2c2c' 
+		}, 2000, "easeBoth");
+	};
+
+	// custom方法(实现bounce弹性运动)
+	$("customleft").onclick = function() {
+		Anim("box6").custom({
+			left: "860px"
+		}, 2000, "bounce", callback);
+	};
+
+
+	// queue队列(动画队列)
+	$("queue").onclick = function() {
+		Anim("box7").custom({left: "860px"}, "slow")
+			.custom({backgroundColor: "#fb219a"})
+			.delay(1000) // delay(time)方法为延时器，即动画在多久后才执行(这里延迟1秒后动画往回运动)
+			.custom({left: "430px"}, "slow")
+			.slideUp("slow")
+			.slideDown(1000, "easeBoth", callback)
+			.custom({borderTopWidth: "5px", borderTopColor: "#ccc"})
+			.delay(2000) // 这里延迟2秒后动画回到开始的位置
+			.custom({left: "0px"}, "slow", "easeOutStrong", callback);
+	};
+
+	// stop(clear, end)方法(仅在动画队列里调用有效)
+	$("stop1").onclick = function() {
+		Anim("box7").stop(); // 默认两个参数都为false//表示立即停止当前队列的动画并继续执行下一个动画
+	};
+	$("stop2").onclick = function() {
+		// clear为false时继续执行下一个队列的动画,end为true时立即执行当前动画队列的最后一帧
+		Anim("box7").stop(false, true);
+	};
+	$("stop3").onclick = function() {
+		Anim("box7").stop(true, false);// clear为true时清除元素中所有的动画队列,end为false时立即停止当前队列的动画
+	};
+	$("stop4").onclick = function() {
+		Anim("box7").stop(true, true);// 停止当前的动画并立即跳转到最后一个动画
+	};
+
+	//---------------------------------------------------------------------------------------------------------------------------------
+	$("others").onclick = function() {
+		Anim("box8").custom({
+			marginTop: "20px"
+		}, 1000, "easeOutStrong", callback)
+		.delay(1000)
+		.custom({
+			marginTop: "-20px"
+		}, "slow", "easeOutStrong");;
+	};
+</script>
+</body>
+</html>
